@@ -290,11 +290,11 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 	}
 
 	/** Get a submatrix.
-     * @param i0   Initial row index
-     * @param i1   Final row index
-     * @param c    Array of column indices.
-     * @return     A(i0:i1,c(:))
-     * @exception  ArrayIndexOutOfBoundsException Submatrix indices
+	 * @param i0   Initial row index
+	 * @param i1   Final row index
+	 * @param c    Array of column indices.
+	 * @return     A(i0:i1,c(:))
+	 * @exception  ArrayIndexOutOfBoundsException Submatrix indices
 	 */
 
 	public Matrix getMatrix (int i0, int i1, int[] c) {
@@ -313,11 +313,11 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 	}
 
 	/** Get a submatrix.
-     * @param r    Array of row indices.
-     * @param j0   Initial column index
-     * @param j1   Final column index
-     * @return     A(r(:),j0:j1)
-     * @exception  ArrayIndexOutOfBoundsException Submatrix indices
+	 * @param r    Array of row indices.
+	 * @param j0   Initial column index
+	 * @param j1   Final column index
+	 * @return     A(r(:),j0:j1)
+	 * @exception  ArrayIndexOutOfBoundsException Submatrix indices
 	 */
 
 	public Matrix getMatrix (int[] r, int j0, int j1) {
@@ -336,10 +336,10 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 	}
 
 	/** Set a single element.
-     * @param i    Row index.
-     * @param j    Column index.
-     * @param s    A(i,j).
-     * @exception  ArrayIndexOutOfBoundsException
+	 * @param i    Row index.
+	 * @param j    Column index.
+	 * @param s    A(i,j).
+	 * @exception  ArrayIndexOutOfBoundsException
 	 */
 
 	public void set (int i, int j, double s) {
@@ -347,12 +347,12 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 	}
 
 	/** Set a submatrix.
-     * @param i0   Initial row index
-     * @param i1   Final row index
-     * @param j0   Initial column index
-     * @param j1   Final column index
-     * @param X    A(i0:i1,j0:j1)
-     * @exception  ArrayIndexOutOfBoundsException Submatrix indices
+	 * @param i0   Initial row index
+	 * @param i1   Final row index
+	 * @param j0   Initial column index
+	 * @param j1   Final column index
+	 * @param X    A(i0:i1,j0:j1)
+	 * @exception  ArrayIndexOutOfBoundsException Submatrix indices
 	 */
 
 	public void setMatrix (int i0, int i1, int j0, int j1, Matrix X) {
@@ -368,10 +368,10 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 	}
 
 	/** Set a submatrix.
-     * @param r    Array of row indices.
-     * @param c    Array of column indices.
-     * @param X    A(r(:),c(:))
-     * @exception  ArrayIndexOutOfBoundsException Submatrix indices
+	 * @param r    Array of row indices.
+	 * @param c    Array of column indices.
+	 * @param X    A(r(:),c(:))
+	 * @exception  ArrayIndexOutOfBoundsException Submatrix indices
 	 */
 
 	public void setMatrix (int[] r, int[] c, Matrix X) {
@@ -387,11 +387,11 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 	}
 
 	/** Set a submatrix.
-     * @param r    Array of row indices.
-     * @param j0   Initial column index
-     * @param j1   Final column index
-     * @param X    A(r(:),j0:j1)
-     * @exception  ArrayIndexOutOfBoundsException Submatrix indices
+	 * @param r    Array of row indices.
+	 * @param j0   Initial column index
+	 * @param j1   Final column index
+	 * @param X    A(r(:),j0:j1)
+	 * @exception  ArrayIndexOutOfBoundsException Submatrix indices
 	 */
 
 	public void setMatrix (int[] r, int j0, int j1, Matrix X) {
@@ -407,11 +407,11 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 	}
 
 	/** Set a submatrix.
-     * @param i0   Initial row index
-     * @param i1   Final row index
-     * @param c    Array of column indices.
-     * @param X    A(i0:i1,c(:))
-     * @exception  ArrayIndexOutOfBoundsException Submatrix indices
+	 * @param i0   Initial row index
+	 * @param i1   Final row index
+	 * @param c    Array of column indices.
+	 * @param X    A(i0:i1,c(:))
+	 * @exception  ArrayIndexOutOfBoundsException Submatrix indices
 	 */
 
 	public void setMatrix (int i0, int i1, int[] c, Matrix X) {
@@ -427,7 +427,7 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 	}
 
 	/** Matrix transpose.
-     * @return    A'
+	 * @return    A'
 	 */
 
 	public Matrix transpose () {
@@ -441,7 +441,7 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 		return X;
 	}
 	/**  Unary minus
-     * @return    -A
+	 * @return    -A
 	 */
 
 	public Matrix uminus () {
@@ -456,8 +456,8 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 	}
 
 	/** C = A + B
-     * @param B    another matrix
-     * @return     A + B
+	 * @param B    another matrix
+	 * @return     A + B
 	 */
 
 	public Matrix plus (Matrix B) {
@@ -473,8 +473,8 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 	}
 
 	/** A = A + B
-     * @param B    another matrix
-     * @return     A + B
+	 * @param B    another matrix
+	 * @return     A + B
 	 */
 
 	public Matrix plusEquals (Matrix B) {
@@ -488,8 +488,8 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 	}
 
 	/** C = A - B
-     * @param B    another matrix
-     * @return     A - B
+	 * @param B    another matrix
+	 * @return     A - B
 	 */
 
 	public Matrix minus (Matrix B) {
@@ -505,8 +505,8 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 	}
 
 	/** A = A - B
-     * @param B    another matrix
-     * @return     A - B
+	 * @param B    another matrix
+	 * @return     A - B
 	 */
 
 	public Matrix minusEquals (Matrix B) {
@@ -520,8 +520,8 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 	}
 
 	/** Multiply a matrix by a scalar, C = s*A
-     * @param s    scalar
-     * @return     s*A
+	 * @param s    scalar
+	 * @return     s*A
 	 */
 
 	public Matrix times (double s) {
@@ -536,8 +536,8 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 	}
 
 	/** Multiply a matrix by a scalar in place, A = s*A
-     * @param s    scalar
-     * @return     replace A by s*A
+	 * @param s    scalar
+	 * @return     replace A by s*A
 	 */
 
 	public Matrix timesEquals (double s) {
@@ -550,8 +550,8 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 	}
 	/** Print the matrix to stdout.   Line the elements up in columns
 	 * with a Fortran-like 'Fw.d' style format.
-     * @param w    Column width.
-     * @param d    Number of digits after the decimal.
+	 * @param w    Column width.
+	 * @param d    Number of digits after the decimal.
 	 */
 
 	public void print (int w, int d) {
@@ -559,9 +559,9 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 
 	/** Print the matrix to the output stream.   Line the elements up in
 	 * columns with a Fortran-like 'Fw.d' style format.
-     * @param output Output stream.
-     * @param w      Column width.
-     * @param d      Number of digits after the decimal.
+	 * @param output Output stream.
+	 * @param w      Column width.
+	 * @param d      Number of digits after the decimal.
 	 */
 
 	public void print (PrintWriter output, int w, int d) {
@@ -623,7 +623,7 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 	 * US Locale).  Elements are separated by
 	 * whitespace, all the elements for each row appear on a single line,
 	 * the last row is followed by a blank line.
-     * @param input the input stream.
+	 * @param input the input stream.
 	 */
 
 	public static Matrix read (BufferedReader input) throws java.io.IOException {
@@ -685,11 +685,17 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 			throw new IllegalArgumentException("Matrix dimensions must agree.");
 		}
 	}
-	
+
 	private static final long serialVersionUID = 1;
 
 	/* -----------------------------------------------------------------------
 	 * This code is coded from the original authors of the project
 	 * and implements the functions the project is based on
 	 * ----------------------------------------------------------------------*/
+	
+	/* TODO Dot product of vectors? Matrix multiplication, LU, QR
+	 * Solving triangular systems, Determinant, Trace, Eigenvalues
+	 * Eigenvectors, Rotate, reflect, or project a vector
+	 */
+	
 }
