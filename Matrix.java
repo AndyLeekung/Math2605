@@ -779,7 +779,7 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 		double[][] C = X.getArray();
 		for (int i = 0; i < this.m; i++) {
 			for (int j = 0; j < B.n; j++) {
-				C[i][j] = this.dotProduct(this.getRowVector(i), B.getColumnVector(j));
+				C[i][j] = dotProduct(this.getRowVector(i), B.getColumnVector(j));
 			}
 		}
 		this.A = X.getArray();
