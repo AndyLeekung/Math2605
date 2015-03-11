@@ -698,6 +698,10 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 	 * Eigenvectors, Rotate, reflect, or project a vector
 	 */
 	
+	/* ------------------------
+	   Public Methods
+	 * ------------------------ */
+	
 	/**
 	 * Get a row vector from the matrix
 	 * @param colIndex index of the row
@@ -719,15 +723,15 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 	 * @return Column vector
 	 */
 	public double[] getColumnVector(int rowIndex) {
-	   // try {
+	    try {
 	        double[] colVector = new double[this.m];
 	        for (int i = 0; i < this.m; i++) {
 	            colVector[i] = this.A[i][rowIndex];
 	        }
 	        return colVector;
-	   // } catch (ArrayIndexOutOfBoundsException e) {
-	        //throw new ArrayIndexOutOfBoundsException("Index is not valid");
-	    //}
+	    } catch (ArrayIndexOutOfBoundsException e) {
+	        throw new ArrayIndexOutOfBoundsException("Index is not valid");
+	    }
 	}
 	
 	/**
@@ -745,6 +749,51 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 			ans += a[i] * b[i];
 		}
 		return ans;
+	}
+	
+	/**
+	 * Multiply two matrices, C = A * B
+	 * @param B Second matrix
+	 * @return Resultant matrix  A * B
+	 */
+	public Matrix multiply(Matrix B) {
+		checkMultiplyDimensions(B);
+		Matrix X = new Matrix(this.m, B.n);
+		double[][] C = X.getArray();
+		for (int i = 0; i < this.m; i++) {
+			for (int j = 0; j < B.n; j++) {
+				C[i][j] = this.dotProduct(this.getRowVector(i), B.getColumnVector(j));
+			}
+		}
+		return X;
+	}
+
+	/**
+	 * Multiply two matrices in place, A = A * B
+	 * @param B Second Matrix
+	 * @return Resultant Matrix A
+	 */
+	public Matrix multiplyEquals(Matrix B) {
+		checkMultiplyDimensions(B);
+		Matrix X = new Matrix(this.m, B.n);
+		double[][] C = X.getArray();
+		for (int i = 0; i < this.m; i++) {
+			for (int j = 0; j < B.n; j++) {
+				C[i][j] = this.dotProduct(this.getRowVector(i), B.getColumnVector(j));
+			}
+		}
+		this.A = X.getArray();
+		this.m = X.m;
+		this.n = X.n;
+		return this;
+	}
+	/* ------------------------
+       Private Methods
+	 * ------------------------ */
+	private void checkMultiplyDimensions(Matrix B) {
+		if (this.n != B.m) {
+			throw new IllegalArgumentException("First matrix n must equal second matrix m.");
+		}
 	}
 	
 }
