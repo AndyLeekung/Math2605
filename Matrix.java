@@ -740,7 +740,7 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 	 * @param b Second vector
 	 * @return The scalar answer to the dot product
 	 */
-	public double dotProduct(double[] a, double[] b) {
+	public static double dotProduct(double[] a, double[] b) {
 		if (a.length != b.length) {
 			throw new IllegalArgumentException("Vectors are not the same length.");
 		}
@@ -762,7 +762,7 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 		double[][] C = X.getArray();
 		for (int i = 0; i < this.m; i++) {
 			for (int j = 0; j < B.n; j++) {
-				C[i][j] = this.dotProduct(this.getRowVector(i), B.getColumnVector(j));
+				C[i][j] = dotProduct(this.getRowVector(i), B.getColumnVector(j));
 			}
 		}
 		return X;
