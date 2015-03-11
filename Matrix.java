@@ -698,4 +698,53 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 	 * Eigenvectors, Rotate, reflect, or project a vector
 	 */
 	
+	/**
+	 * Get a row vector from the matrix
+	 * @param colIndex index of the row
+	 * @return Row vector
+	 */
+	public double[] getRowVector(int colIndex) {
+	    try {
+	        double[] rowVector = new double[this.n];
+	        rowVector = A[colIndex];
+	        return rowVector;
+	    } catch (ArrayIndexOutOfBoundsException e) {
+	        throw new ArrayIndexOutOfBoundsException("Index is not valid");
+	    }
+	}
+	
+	/**
+	 * Get a column vector from the matrix
+	 * @param rowIndex index of the column
+	 * @return Column vector
+	 */
+	public double[] getColumnVector(int rowIndex) {
+	   // try {
+	        double[] colVector = new double[this.m];
+	        for (int i = 0; i < this.m; i++) {
+	            colVector[i] = this.A[i][rowIndex];
+	        }
+	        return colVector;
+	   // } catch (ArrayIndexOutOfBoundsException e) {
+	        //throw new ArrayIndexOutOfBoundsException("Index is not valid");
+	    //}
+	}
+	
+	/**
+	 * Gets the dot product of two vectors
+	 * @param a First vector
+	 * @param b Second vector
+	 * @return The scalar answer to the dot product
+	 */
+	public double dotProduct(double[] a, double[] b) {
+		if (a.length != b.length) {
+			throw new IllegalArgumentException("Vectors are not the same length.");
+		}
+		double ans = 0;
+		for (int i = 0; i < a.length; i++) {
+			ans += a[i] * b[i];
+		}
+		return ans;
+	}
+	
 }
