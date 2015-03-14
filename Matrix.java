@@ -687,19 +687,96 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 	}
 
 	private static final long serialVersionUID = 1;
+	
+	/* ------------------------
+       End code from the JAMA Library
+	 * ------------------------ */
 
 	/* -----------------------------------------------------------------------
 	 * This code is coded from the original authors of the project
 	 * and implements the functions the project is based on
 	 * ----------------------------------------------------------------------*/
 	
-	/* TODO Dot product of vectors? Matrix multiplication, LU, QR
+	/* TODO 
+	 * LU
+	 * QR
 	 * Solving triangular systems, Determinant, Trace, Eigenvalues
 	 * Eigenvectors, Rotate, reflect, or project a vector
+	 * Solve using backwards substitution
+	 * Jacobi and Gauss-Seidel iteration
+	 * Power Method - also calculate the number of iterations given the tolerance
 	 */
 	
 	/* ------------------------
 	   Public Methods
+	 * ------------------------ */
+
+	/**
+	 * Multiply two matrices, C = A * B
+	 * @param B Second matrix
+	 * @return Resultant matrix  A * B
+	 */
+	public Matrix multiply(Matrix B) {
+		checkMultiplyDimensions(B);
+		Matrix X = new Matrix(this.m, B.n);
+		double[][] C = X.getArray();
+		for (int i = 0; i < this.m; i++) {
+			for (int j = 0; j < B.n; j++) {
+				C[i][j] = dotProduct(this.getRowVector(i), B.getColumnVector(j));
+			}
+		}
+		return X;
+	}
+
+	/**
+	 * Multiply two matrices in place, A = A * B
+	 * @param B Second Matrix
+	 * @return Resultant Matrix A
+	 */
+	public Matrix multiplyEquals(Matrix B) {
+		checkMultiplyDimensions(B);
+		Matrix X = new Matrix(this.m, B.n);
+		double[][] C = X.getArray();
+		for (int i = 0; i < this.m; i++) {
+			for (int j = 0; j < B.n; j++) {
+				C[i][j] = dotProduct(this.getRowVector(i), B.getColumnVector(j));
+			}
+		}
+		this.A = X.getArray();
+		this.m = X.m;
+		this.n = X.n;
+		return this;
+	}
+	
+	/**
+	 * Get an instance of the QR decomposition class using householder
+	 * reflections
+	 * @return An instance of the QR decomposition with householders
+	 */
+	public QRDecompHouseHolder qrHouseHolder() {
+		return new QRDecompHouseHolder(this);
+	}
+	
+	/**
+	 * Get an instance of the QR decomposition class using givens
+	 * rotations
+	 * @return An instance of the QR decomposition with givens
+	 */
+	public QRDecompGivens qrGivens() {
+		return new QRDecompGivens(this);
+	}
+	
+	/* ------------------------
+       Private Methods
+	 * ------------------------ */
+	private void checkMultiplyDimensions(Matrix B) {
+		if (this.n != B.m) {
+			throw new IllegalArgumentException("First matrix n must equal second matrix m.");
+		}
+	}
+	
+	/* ------------------------
+	   Vector Stuff
 	 * ------------------------ */
 	
 	/**
@@ -752,48 +829,20 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 	}
 	
 	/**
-	 * Multiply two matrices, C = A * B
-	 * @param B Second matrix
-	 * @return Resultant matrix  A * B
+	 * Gets the norm of a vector
+	 * @param a Vector a
+	 * @return Norm of the vector
 	 */
-	public Matrix multiply(Matrix B) {
-		checkMultiplyDimensions(B);
-		Matrix X = new Matrix(this.m, B.n);
-		double[][] C = X.getArray();
-		for (int i = 0; i < this.m; i++) {
-			for (int j = 0; j < B.n; j++) {
-				C[i][j] = dotProduct(this.getRowVector(i), B.getColumnVector(j));
-			}
+	public static double norm(double[] a) {
+		double norm = 0;
+		for (int i = 0; i < a.length; i++) {
+			norm += a[i] * a[i];
 		}
-		return X;
-	}
-
-	/**
-	 * Multiply two matrices in place, A = A * B
-	 * @param B Second Matrix
-	 * @return Resultant Matrix A
-	 */
-	public Matrix multiplyEquals(Matrix B) {
-		checkMultiplyDimensions(B);
-		Matrix X = new Matrix(this.m, B.n);
-		double[][] C = X.getArray();
-		for (int i = 0; i < this.m; i++) {
-			for (int j = 0; j < B.n; j++) {
-				C[i][j] = dotProduct(this.getRowVector(i), B.getColumnVector(j));
-			}
-		}
-		this.A = X.getArray();
-		this.m = X.m;
-		this.n = X.n;
-		return this;
+		norm = Math.sqrt(norm);
+		return norm;
 	}
 	/* ------------------------
-       Private Methods
+	   End Vector Stuff
 	 * ------------------------ */
-	private void checkMultiplyDimensions(Matrix B) {
-		if (this.n != B.m) {
-			throw new IllegalArgumentException("First matrix n must equal second matrix m.");
-		}
-	}
 	
 }
