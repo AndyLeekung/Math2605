@@ -548,6 +548,23 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 		}
 		return this;
 	}
+	
+	/** Generate identity matrix
+	 * @param m    Number of rows.
+	 * @param n    Number of columns.
+	 * @return     An m-by-n matrix with ones on the diagonal and zeros elsewhere.
+	  */
+	   public static Matrix identity (int m, int n) {
+	      Matrix A = new Matrix(m,n);
+	      double[][] X = A.getArray();
+	      for (int i = 0; i < m; i++) {
+	         for (int j = 0; j < n; j++) {
+	            X[i][j] = (i == j ? 1.0 : 0.0);
+	         }
+	      }
+	      return A;
+	   }
+	
 	/** Print the matrix to stdout.   Line the elements up in columns
 	 * with a Fortran-like 'Fw.d' style format.
 	 * @param w    Column width.
@@ -841,6 +858,72 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 		norm = Math.sqrt(norm);
 		return norm;
 	}
+	
+	/**
+	 * Return the addition of two vectors
+	 * @param a First vector
+	 * @param b Second vector
+	 * @return Return the resultant vector
+	 */
+	public static double[] plus(double[] a, double[] b) {
+		if (a.length != b.length) {
+			throw new IllegalArgumentException("Vectors are not the same length.");
+		}
+		double[] c = new double[a.length];
+		for (int i = 0; i < a.length; i++) {
+			c[i] = a[i] + b[i];
+		}
+		return c;
+	}
+	
+	/**
+	 * Return the subtraction of two vectors
+	 * @param a First vector
+	 * @param b Second vector
+	 * @return Return the resultant vector
+	 */
+	public static double[] minus(double[] a, double[] b) {
+		if (a.length != b.length) {
+			throw new IllegalArgumentException("Vectors are not the same length.");
+		}
+		double[] c = new double[a.length];
+		for (int i = 0; i < a.length; i++) {
+			c[i] = a[i] - b[i];
+		}
+		return c;
+	}
+	
+	/**
+	 * Multiply a vector by a scalar
+	 * @param a Vector a
+	 * @param s Scalar s
+	 * @return Resultant vector
+	 */
+	public static double[] multiply(double[] a, double s) {
+		double[] c = new double[a.length];
+		for (int i = 0; i < a.length; i++) {
+			c[i] = s * a[i];
+		}
+		return c;
+	}
+	
+	/**
+	 * Multiply two vectors, assuming one is a row and the other is a column
+	 * @param a First vector, column vector
+	 * @param b Second vector, row vector
+	 * @return Matrix from multiplying the two vectors
+	 */
+	public static Matrix multiplyVectors(double[] a, double[] b) {
+		Matrix X = new Matrix(a.length, b.length);
+		double[][] c = X.getArray();
+		for (int i = 0; i < a.length; i++) {
+			for (int j = 0; j < b.length; j++) {
+				c[i][j] = a[i] * b[j];
+			}
+		}
+		return X;
+	}
+	
 	/* ------------------------
 	   End Vector Stuff
 	 * ------------------------ */
