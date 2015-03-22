@@ -798,13 +798,17 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 	
 	/**
 	 * Get a row vector from the matrix
-	 * @param colIndex index of the row
+	 * @param mIndex index of the column to start at
+	 * @param nIndex index of the row to start at
 	 * @return Row vector
 	 */
-	public double[] getRowVector(int colIndex) {
+	public double[] getRowVector(int mIndex, int nIndex) {
 	    try {
-	        double[] rowVector = new double[this.n];
-	        rowVector = A[colIndex];
+	        double[] rowVector = new double[this.n - nIndex];
+	        for (int i = nIndex; i < this.n; i++) {
+	        	rowVector[i - nIndex] = this.A[mIndex][i];
+	        }
+	        //rowVector = A[colIndex];
 	        return rowVector;
 	    } catch (ArrayIndexOutOfBoundsException e) {
 	        throw new ArrayIndexOutOfBoundsException("Index is not valid");
@@ -812,20 +816,39 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 	}
 	
 	/**
+	 * Gets the whole row vector from the matrix
+	 * @param mIndex M index to find the row vector of
+	 * @return Complete row vector from matrix
+	 */
+	public double[] getRowVector(int mIndex) {
+		return this.getRowVector(mIndex, 0);
+	}
+	
+	/**
 	 * Get a column vector from the matrix
-	 * @param rowIndex index of the column
+	 * @param mIndex index of the column to start at
+	 * @param nIndex index of the row to start at
 	 * @return Column vector
 	 */
-	public double[] getColumnVector(int rowIndex) {
+	public double[] getColumnVector(int mIndex, int nIndex) {
 	    try {
-	        double[] colVector = new double[this.m];
-	        for (int i = 0; i < this.m; i++) {
-	            colVector[i] = this.A[i][rowIndex];
+	        double[] colVector = new double[this.m - mIndex];
+	        for (int i = mIndex; i < this.m; i++) {
+	            colVector[i - mIndex] = this.A[i][nIndex];
 	        }
 	        return colVector;
 	    } catch (ArrayIndexOutOfBoundsException e) {
 	        throw new ArrayIndexOutOfBoundsException("Index is not valid");
 	    }
+	}
+	
+	/**
+	 * Gets the whole column vector from the matrix
+	 * @param nIndex N index to find the row vector of
+	 * @return Complete column vector from matrix
+	 */
+	public double[] getColumnVector(int nIndex) {
+		return this.getColumnVector(0, nIndex);
 	}
 	
 	/**
