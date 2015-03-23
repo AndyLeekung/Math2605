@@ -3,19 +3,10 @@
  * @author Chingyeu Andy Leekung, Joeseph Lesniak, Jacob Goodpasture
  * @version 1.0
  */
-public class QRDecompGivens {
+public class QRDecompGivens extends QRDecomp{
 
 	//TODO EVERYTHING
-	
-	/**
-	 * Storage for the matrices of the QR decomp
-	 */
-	private double[][] QR, Q, R;
-	
-	/**
-	 * Row and column dimensions
-	 */
-	private int m, n;
+
 	
 	/* ------------------------
 	   Constructors
@@ -27,7 +18,7 @@ public class QRDecompGivens {
 	 * @param A Matrix to decompose
 	 */
 	public QRDecompGivens(Matrix A) {
-		QR = A.getArrayCopy();
+		this.R = A;
 		m = A.getRowDimension();
 		n = A.getRowDimension();
 		//TODO Do the QR stuff here
@@ -37,20 +28,14 @@ public class QRDecompGivens {
 	   Public Methods
 	 * ------------------------ */
 	
-	/**
-	 * Return Q of the QR decomposition
-	 * @return Matrix Q
-	 */
-	public Matrix getQ() {
-		return new Matrix(Q);
+	
+	/* ------------------------
+	   Private Methods
+	 * ------------------------ */
+	
+	private static Matrix givensMatrix(double[] givVec) {
+		
 	}
 	
-	/**
-	 * Return R of the QR decomposition 
-	 * @return Matrix R
-	 */
-	public Matrix getR() {
-		return new Matrix(R);
-	}
 
 }
