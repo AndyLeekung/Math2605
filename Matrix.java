@@ -9,7 +9,7 @@ import java.util.Locale;
 
 /**
  * Matrix class to represent 2D arrays as matrices
- * Uses code from http://math.nist.gov/javanumerics/jama/ to implement 
+ * Uses code from http://math.nist.gov/javanumerics/jama/ to implement
  * basic matrix operations.
  * @author Chingyeu Andy Leekung, Joeseph Lesniak, Jacob Goodpasture
  * @version 1.0
@@ -18,7 +18,7 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 
 	/* -----------------------------------------------------------------------
 	 * This code is from http://math.nist.gov/javanumerics/jama/
-	 * @author The MathWorks, Inc. and the National 
+	 * @author The MathWorks, Inc. and the National
 	 * 		   Institute of Standards and Technology.
 	 * @version 5 August 1998
 	 * Only code for the functions allowed in the project is used
@@ -43,7 +43,7 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 	   Constructors
 	 * ------------------------ */
 
-	/** Construct an m-by-n matrix of zeros. 
+	/** Construct an m-by-n matrix of zeros.
 	 * @param m    Number of rows.
 	 * @param n    Number of colums.
 	 */
@@ -548,7 +548,7 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 		}
 		return this;
 	}
-	
+
 	/** Generate identity matrix
 	 * @param m    Number of rows.
 	 * @param n    Number of columns.
@@ -564,7 +564,7 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 	      }
 	      return A;
 	   }
-	
+
 	/** Print the matrix to stdout.   Line the elements up in columns
 	 * with a Fortran-like 'Fw.d' style format.
 	 * @param w    Column width.
@@ -615,7 +615,7 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 	 * Note that is the matrix is to be read back in, you probably will want
 	 * to use a NumberFormat that is set to US Locale.
    @param output the output stream.
-   @param format A formatting object to format the matrix elements 
+   @param format A formatting object to format the matrix elements
    @param width  Column width.
    @see java.text.DecimalFormat#setDecimalFormatSymbols
 	 */
@@ -704,7 +704,7 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 	}
 
 	private static final long serialVersionUID = 1;
-	
+
 	/* ------------------------
        End code from the JAMA Library
 	 * ------------------------ */
@@ -713,8 +713,8 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 	 * This code is coded from the original authors of the project
 	 * and implements the functions the project is based on
 	 * ----------------------------------------------------------------------*/
-	
-	/* TODO 
+
+	/* TODO
 	 * LU
 	 * QR
 	 * Solving triangular systems, Determinant, Trace, Eigenvalues
@@ -723,7 +723,7 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 	 * Jacobi and Gauss-Seidel iteration
 	 * Power Method - also calculate the number of iterations given the tolerance
 	 */
-	
+
 	/* ------------------------
 	   Public Methods
 	 * ------------------------ */
@@ -764,7 +764,50 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 		this.n = X.n;
 		return this;
 	}
-	
+
+	/**
+	 * Gets determinant of matrix
+	 * @return determinant of the matrix
+	 */
+	public double determinant() throws IllegalArgumentException {
+		if (!(m == n)) {
+			throw new IllegalArgumentException("Determinents for square matrices only");
+		}
+		double ans = 0;
+		if (m == 1) {
+			ans = A[m][n];
+		}
+		if (n == 2) {
+			ans = ((A[0][0] * A[1][1]) - (A[0][1] * A[1][0]));
+		} else {
+			for (int i = 0; i < 1; i++) {
+				double[][] det = new double[m-1][n-1];
+				double scal = 0;
+				for (int j = 0; j < n; j++) {
+					scal = A[i][j];
+					int mcount = 0;
+					for (int k = 1; k < m; k++) {
+						int ncount = 0;
+						for (int l = 0; l < n; l++) {
+							if (!(l == j)) {
+								det[mcount][ncount] = A[k][l];
+								ncount += 1;
+							}
+						}
+						mcount += 1;
+					}
+					Matrix step = new Matrix(det);
+					double neg = 1;
+					if (j%2 == 1) {
+						neg = -1;
+					}
+					ans = ans + (neg*(step.determinant() * scal));
+				}
+			}
+		}
+		return ans;
+	}
+
 	/**
 	 * Get an instance of the QR decomposition class using householder
 	 * reflections
@@ -773,7 +816,7 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 	public QRDecompHouseHolder qrHouseHolder() {
 		return new QRDecompHouseHolder(this);
 	}
-	
+
 	/**
 	 * Get an instance of the QR decomposition class using givens
 	 * rotations
@@ -782,7 +825,7 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 	public QRDecompGivens qrGivens() {
 		return new QRDecompGivens(this);
 	}
-	
+
 	/* ------------------------
        Private Methods
 	 * ------------------------ */
@@ -791,11 +834,11 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 			throw new IllegalArgumentException("First matrix n must equal second matrix m.");
 		}
 	}
-	
+
 	/* ------------------------
 	   Vector Stuff
 	 * ------------------------ */
-	
+
 	/**
 	 * Get a row vector from the matrix
 	 * @param mIndex index of the column to start at
@@ -814,7 +857,7 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 	        throw new ArrayIndexOutOfBoundsException("Index is not valid");
 	    }
 	}
-	
+
 	/**
 	 * Gets the whole row vector from the matrix
 	 * @param mIndex M index to find the row vector of
@@ -823,7 +866,7 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 	public double[] getRowVector(int mIndex) {
 		return this.getRowVector(mIndex, 0);
 	}
-	
+
 	/**
 	 * Get a column vector from the matrix
 	 * @param mIndex index of the column to start at
@@ -841,7 +884,7 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 	        throw new ArrayIndexOutOfBoundsException("Index is not valid");
 	    }
 	}
-	
+
 	/**
 	 * Gets the whole column vector from the matrix
 	 * @param nIndex N index to find the row vector of
@@ -850,7 +893,7 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 	public double[] getColumnVector(int nIndex) {
 		return this.getColumnVector(0, nIndex);
 	}
-	
+
 	/**
 	 * Gets the dot product of two vectors
 	 * @param a First vector
@@ -867,7 +910,7 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 		}
 		return ans;
 	}
-	
+
 	/**
 	 * Gets the norm of a vector
 	 * @param a Vector a
@@ -881,7 +924,7 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 		norm = Math.sqrt(norm);
 		return norm;
 	}
-	
+
 	/**
 	 * Return the addition of two vectors
 	 * @param a First vector
@@ -898,7 +941,7 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 		}
 		return c;
 	}
-	
+
 	/**
 	 * Return the subtraction of two vectors
 	 * @param a First vector
@@ -915,7 +958,7 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 		}
 		return c;
 	}
-	
+
 	/**
 	 * Multiply a vector by a scalar
 	 * @param a Vector a
@@ -929,7 +972,7 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 		}
 		return c;
 	}
-	
+
 	/**
 	 * Multiply two vectors, assuming one is a row and the other is a column
 	 * @param a First vector, column vector
@@ -946,9 +989,9 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 		}
 		return X;
 	}
-	
+
 	/* ------------------------
 	   End Vector Stuff
 	 * ------------------------ */
-	
+
 }
