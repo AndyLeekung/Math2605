@@ -807,6 +807,17 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 		}
 		return ans;
 	}
+	
+	public static Matrix hilbertMatrix(int n) {
+		double[][] hilArray = new double[n][n];
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < n; j++) {
+				hilArray[i][j] = 1. / (1 + j + i);
+			}
+		}
+		Matrix hilbert = new Matrix(hilArray);
+		return hilbert;
+	}
 
 	/**
 	 * Get an instance of the QR decomposition class using householder
