@@ -9,7 +9,7 @@ import java.util.Locale;
 
 /**
  * Matrix class to represent 2D arrays as matrices
- * Uses code from http://math.nist.gov/javanumerics/jama/ to implement
+ * Uses code from http://math.nist.gov/javanumerics/jama/ to implement 
  * basic matrix operations.
  * @author Chingyeu Andy Leekung, Joeseph Lesniak, Jacob Goodpasture
  * @version 1.0
@@ -18,7 +18,7 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 
 	/* -----------------------------------------------------------------------
 	 * This code is from http://math.nist.gov/javanumerics/jama/
-	 * @author The MathWorks, Inc. and the National
+	 * @author The MathWorks, Inc. and the National 
 	 * 		   Institute of Standards and Technology.
 	 * @version 5 August 1998
 	 * Only code for the functions allowed in the project is used
@@ -43,7 +43,7 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 	   Constructors
 	 * ------------------------ */
 
-	/** Construct an m-by-n matrix of zeros.
+	/** Construct an m-by-n matrix of zeros. 
 	 * @param m    Number of rows.
 	 * @param n    Number of colums.
 	 */
@@ -548,23 +548,6 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 		}
 		return this;
 	}
-
-	/** Generate identity matrix
-	 * @param m    Number of rows.
-	 * @param n    Number of columns.
-	 * @return     An m-by-n matrix with ones on the diagonal and zeros elsewhere.
-	  */
-	   public static Matrix identity (int m, int n) {
-	      Matrix A = new Matrix(m,n);
-	      double[][] X = A.getArray();
-	      for (int i = 0; i < m; i++) {
-	         for (int j = 0; j < n; j++) {
-	            X[i][j] = (i == j ? 1.0 : 0.0);
-	         }
-	      }
-	      return A;
-	   }
-
 	/** Print the matrix to stdout.   Line the elements up in columns
 	 * with a Fortran-like 'Fw.d' style format.
 	 * @param w    Column width.
@@ -615,7 +598,7 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 	 * Note that is the matrix is to be read back in, you probably will want
 	 * to use a NumberFormat that is set to US Locale.
    @param output the output stream.
-   @param format A formatting object to format the matrix elements
+   @param format A formatting object to format the matrix elements 
    @param width  Column width.
    @see java.text.DecimalFormat#setDecimalFormatSymbols
 	 */
@@ -705,213 +688,55 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 
 	private static final long serialVersionUID = 1;
 
-	/* ------------------------
-       End code from the JAMA Library
-	 * ------------------------ */
-
 	/* -----------------------------------------------------------------------
 	 * This code is coded from the original authors of the project
 	 * and implements the functions the project is based on
 	 * ----------------------------------------------------------------------*/
-
-	/* TODO
-	 * LU
-	 * QR
+	
+	/* TODO Dot product of vectors? Matrix multiplication, LU, QR
 	 * Solving triangular systems, Determinant, Trace, Eigenvalues
 	 * Eigenvectors, Rotate, reflect, or project a vector
-	 * Solve using backwards substitution
-	 * Jacobi and Gauss-Seidel iteration
-	 * Power Method - also calculate the number of iterations given the tolerance
 	 */
-
-	/* ------------------------
-	   Public Methods
-	 * ------------------------ */
-
-	/**
-	 * Multiply two matrices, C = A * B
-	 * @param B Second matrix
-	 * @return Resultant matrix  A * B
-	 */
-	public Matrix multiply(Matrix B) {
-		checkMultiplyDimensions(B);
-		Matrix X = new Matrix(this.m, B.n);
-		double[][] C = X.getArray();
-		for (int i = 0; i < this.m; i++) {
-			for (int j = 0; j < B.n; j++) {
-				C[i][j] = dotProduct(this.getRowVector(i), B.getColumnVector(j));
-			}
-		}
-		return X;
-	}
-
-	/**
-	 * Multiply two matrices in place, A = A * B
-	 * @param B Second Matrix
-	 * @return Resultant Matrix A
-	 */
-	public Matrix multiplyEquals(Matrix B) {
-		checkMultiplyDimensions(B);
-		Matrix X = new Matrix(this.m, B.n);
-		double[][] C = X.getArray();
-		for (int i = 0; i < this.m; i++) {
-			for (int j = 0; j < B.n; j++) {
-				C[i][j] = dotProduct(this.getRowVector(i), B.getColumnVector(j));
-			}
-		}
-		this.A = X.getArray();
-		this.m = X.m;
-		this.n = X.n;
-		return this;
-	}
-
-	/**
-	 * Gets determinant of matrix
-	 * @return determinant of the matrix
-	 */
-	public double determinant() throws IllegalArgumentException {
-		if (!(m == n)) {
-			throw new IllegalArgumentException("Determinents for square matrices only");
-		}
-		double ans = 0;
-		if (m == 1) {
-			ans = A[m][n];
-		}
-		if (n == 2) {
-			ans = ((A[0][0] * A[1][1]) - (A[0][1] * A[1][0]));
-		} else {
-			for (int i = 0; i < 1; i++) {
-				double[][] det = new double[m-1][n-1];
-				double scal = 0;
-				for (int j = 0; j < n; j++) {
-					scal = A[i][j];
-					int mcount = 0;
-					for (int k = 1; k < m; k++) {
-						int ncount = 0;
-						for (int l = 0; l < n; l++) {
-							if (!(l == j)) {
-								det[mcount][ncount] = A[k][l];
-								ncount += 1;
-							}
-						}
-						mcount += 1;
-					}
-					Matrix step = new Matrix(det);
-					double neg = 1;
-					if (j%2 == 1) {
-						neg = -1;
-					}
-					ans = ans + (neg*(step.determinant() * scal));
-				}
-			}
-		}
-		return ans;
-	}
 	
-	public static Matrix hilbertMatrix(int n) {
-		double[][] hilArray = new double[n][n];
-		for (int i = 0; i < n; i++) {
-			for (int j = 0; j < n; j++) {
-				hilArray[i][j] = 1. / (1 + j + i);
-			}
-		}
-		Matrix hilbert = new Matrix(hilArray);
-		return hilbert;
-	}
-
-	/**
-	 * Get an instance of the QR decomposition class using householder
-	 * reflections
-	 * @return An instance of the QR decomposition with householders
-	 */
-	public QRDecompHouseHolder qrHouseHolder() {
-		return new QRDecompHouseHolder(this);
-	}
-
-	/**
-	 * Get an instance of the QR decomposition class using givens
-	 * rotations
-	 * @return An instance of the QR decomposition with givens
-	 */
-	public QRDecompGivens qrGivens() {
-		return new QRDecompGivens(this);
-	}
-
-	/* ------------------------
-       Private Methods
-	 * ------------------------ */
-	private void checkMultiplyDimensions(Matrix B) {
-		if (this.n != B.m) {
-			throw new IllegalArgumentException("First matrix n must equal second matrix m.");
-		}
-	}
-
-	/* ------------------------
-	   Vector Stuff
-	 * ------------------------ */
-
 	/**
 	 * Get a row vector from the matrix
-	 * @param mIndex index of the column to start at
-	 * @param nIndex index of the row to start at
+	 * @param colIndex index of the row
 	 * @return Row vector
 	 */
-	public double[] getRowVector(int mIndex, int nIndex) {
+	public double[] getRowVector(int colIndex) {
 	    try {
-	        double[] rowVector = new double[this.n - nIndex];
-	        for (int i = nIndex; i < this.n; i++) {
-	        	rowVector[i - nIndex] = this.A[mIndex][i];
-	        }
-	        //rowVector = A[colIndex];
+	        double[] rowVector = new double[this.n];
+	        rowVector = A[colIndex];
 	        return rowVector;
 	    } catch (ArrayIndexOutOfBoundsException e) {
 	        throw new ArrayIndexOutOfBoundsException("Index is not valid");
 	    }
 	}
-
-	/**
-	 * Gets the whole row vector from the matrix
-	 * @param mIndex M index to find the row vector of
-	 * @return Complete row vector from matrix
-	 */
-	public double[] getRowVector(int mIndex) {
-		return this.getRowVector(mIndex, 0);
-	}
-
+	
 	/**
 	 * Get a column vector from the matrix
-	 * @param mIndex index of the column to start at
-	 * @param nIndex index of the row to start at
+	 * @param rowIndex index of the column
 	 * @return Column vector
 	 */
-	public double[] getColumnVector(int mIndex, int nIndex) {
-	    try {
-	        double[] colVector = new double[this.m - mIndex];
-	        for (int i = mIndex; i < this.m; i++) {
-	            colVector[i - mIndex] = this.A[i][nIndex];
+	public double[] getColumnVector(int rowIndex) {
+	   // try {
+	        double[] colVector = new double[this.m];
+	        for (int i = 0; i < this.m; i++) {
+	            colVector[i] = this.A[i][rowIndex];
 	        }
 	        return colVector;
-	    } catch (ArrayIndexOutOfBoundsException e) {
-	        throw new ArrayIndexOutOfBoundsException("Index is not valid");
-	    }
+	   // } catch (ArrayIndexOutOfBoundsException e) {
+	        //throw new ArrayIndexOutOfBoundsException("Index is not valid");
+	    //}
 	}
-
-	/**
-	 * Gets the whole column vector from the matrix
-	 * @param nIndex N index to find the row vector of
-	 * @return Complete column vector from matrix
-	 */
-	public double[] getColumnVector(int nIndex) {
-		return this.getColumnVector(0, nIndex);
-	}
-
+	
 	/**
 	 * Gets the dot product of two vectors
 	 * @param a First vector
 	 * @param b Second vector
 	 * @return The scalar answer to the dot product
 	 */
-	public static double dotProduct(double[] a, double[] b) {
+	public double dotProduct(double[] a, double[] b) {
 		if (a.length != b.length) {
 			throw new IllegalArgumentException("Vectors are not the same length.");
 		}
@@ -921,88 +746,5 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 		}
 		return ans;
 	}
-
-	/**
-	 * Gets the norm of a vector
-	 * @param a Vector a
-	 * @return Norm of the vector
-	 */
-	public static double norm(double[] a) {
-		double norm = 0;
-		for (int i = 0; i < a.length; i++) {
-			norm += a[i] * a[i];
-		}
-		norm = Math.sqrt(norm);
-		return norm;
-	}
-
-	/**
-	 * Return the addition of two vectors
-	 * @param a First vector
-	 * @param b Second vector
-	 * @return Return the resultant vector
-	 */
-	public static double[] plus(double[] a, double[] b) {
-		if (a.length != b.length) {
-			throw new IllegalArgumentException("Vectors are not the same length.");
-		}
-		double[] c = new double[a.length];
-		for (int i = 0; i < a.length; i++) {
-			c[i] = a[i] + b[i];
-		}
-		return c;
-	}
-
-	/**
-	 * Return the subtraction of two vectors
-	 * @param a First vector
-	 * @param b Second vector
-	 * @return Return the resultant vector
-	 */
-	public static double[] minus(double[] a, double[] b) {
-		if (a.length != b.length) {
-			throw new IllegalArgumentException("Vectors are not the same length.");
-		}
-		double[] c = new double[a.length];
-		for (int i = 0; i < a.length; i++) {
-			c[i] = a[i] - b[i];
-		}
-		return c;
-	}
-
-	/**
-	 * Multiply a vector by a scalar
-	 * @param a Vector a
-	 * @param s Scalar s
-	 * @return Resultant vector
-	 */
-	public static double[] multiply(double[] a, double s) {
-		double[] c = new double[a.length];
-		for (int i = 0; i < a.length; i++) {
-			c[i] = s * a[i];
-		}
-		return c;
-	}
-
-	/**
-	 * Multiply two vectors, assuming one is a row and the other is a column
-	 * @param a First vector, column vector
-	 * @param b Second vector, row vector
-	 * @return Matrix from multiplying the two vectors
-	 */
-	public static Matrix multiplyVectors(double[] a, double[] b) {
-		Matrix X = new Matrix(a.length, b.length);
-		double[][] c = X.getArray();
-		for (int i = 0; i < a.length; i++) {
-			for (int j = 0; j < b.length; j++) {
-				c[i][j] = a[i] * b[j];
-			}
-		}
-		return X;
-	}
-
-	/* ------------------------
-	   End Vector Stuff
-	 * ------------------------ */
-
+	
 }
