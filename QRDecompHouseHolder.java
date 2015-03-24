@@ -20,8 +20,8 @@ public class QRDecompHouseHolder extends QRDecomp{
 		//this.A = A;
 		this.R = A;
 		//QR = A.getArrayCopy();
-		this.m = A.getRowDimension();
-		this.n = A.getColumnDimension();
+		m = A.getRowDimension();
+		n = A.getColumnDimension();
 		qMatrices = new ArrayList<Matrix>();
 		//TODO Do the QR stuff here
 		for (int i = 0; i < n - 1; i++) {
