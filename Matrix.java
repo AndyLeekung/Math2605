@@ -808,6 +808,11 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 		return ans;
 	}
 	
+	/**
+	 * Hilbert Matrix
+	 * @param n Dimension
+	 * @return a n x n Hilbert Matrix
+	 */
 	public static Matrix hilbertMatrix(int n) {
 		double[][] hilArray = new double[n][n];
 		for (int i = 0; i < n; i++) {
