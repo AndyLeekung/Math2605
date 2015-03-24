@@ -80,4 +80,12 @@ public class GaussSeidel extends Iteration {
         }
         tol = Math.sqrt(norm);
     }
+
+    /**
+     * Gets the solution matrix x
+     * @return the solution matrix x
+     */
+    public Matrix getX() {
+        return xMatrix;
+    }
 }

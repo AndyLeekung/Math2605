@@ -28,6 +28,12 @@ public class Jacobi extends Iteration {
             System.out.println(e.getMessage());
             System.exit(0);
         }
+        try {
+            checkInvertibility(A);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.exit(0);
+        }
         this.x = x.getArrayCopy();
         this.xMatrix = x;
         this.L = getL();
@@ -126,5 +132,13 @@ public class Jacobi extends Iteration {
             }
         }
         tol = Math.sqrt(norm);
+    }
+
+    /**
+     * Gets the solution matrix x
+     * @return the solution matrix x
+     */
+    public Matrix getX() {
+        return xMatrix;
     }
 }

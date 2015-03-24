@@ -22,15 +22,7 @@ public abstract class Iteration {
         }
     }
 
-    /**
-     * Gets the solution matrix x
-     * @return the solution matrix x
-     */
-    public Matrix getX() {
-        return xMatrix;
-    }
-
     public void checkConvergence() {
-        
+
     }
 }
