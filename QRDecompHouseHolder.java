@@ -49,7 +49,6 @@ public class QRDecompHouseHolder extends QRDecomp{
 	   Public Methods
 	 * ------------------------ */
 	
-	
 	//Solve Ax = b
 	//QRx = b
 	//Qy = b
@@ -105,6 +104,8 @@ public class QRDecompHouseHolder extends QRDecomp{
 		
 		return houseHolder;
 	}
+	
+
 
 
 }

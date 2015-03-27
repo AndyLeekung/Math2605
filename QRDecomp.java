@@ -30,6 +30,30 @@ public abstract class QRDecomp {
 	}
 	
 	/**
+	 * Solves the linear system given a vector b using QR
+	 * @param b The vector to solve with
+	 * @return Solution x
+	 */
+	public double[] solve(double[] b) {
+		double[] sol = new double[m];
+		//Solve for Qy = B
+		//y = Q^tb
+		double[] y = Q.transpose().multiplyVector(b);
+		//Solve for Rx = y
+		//use backwards substitution
+		sol[m - 1] = y[m - 1] / R.get(m - 1, m - 1);
+		for (int i = m - 2; i >= 0; i--) {
+			double[] row = R.getRowVector(i, i);
+			double extSum = 0;
+			for (int j = 1; j < row.length; j++) {
+				extSum += row[j] * sol[i + j];
+			}
+			sol[i] = (y[i] - extSum) / row[0];
+		}
+		return sol;
+	}
+	
+	/**
 	 * Checks if vector has zeroes below first term
 	 * @param vector Vector to check
 	 * @return True if vector has all zeroes below first term, else false
@@ -43,4 +67,6 @@ public abstract class QRDecomp {
 		}
 		return hasZeroes;
 	}
+	
+
 }
