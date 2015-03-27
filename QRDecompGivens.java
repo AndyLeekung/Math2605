@@ -30,7 +30,6 @@ public class QRDecompGivens extends QRDecomp{
 			for (int j = i + 1; j < m; j++) {
 				rArr = R.getArray();
 				double givVec[] = {rArr[i][i], rArr[j][i]};
-				System.out.println("" + rArr[i][i] + " " + rArr[i][j]);
 				if (!checkZeroes(givVec)) {
 					Matrix G = givensMatrix(givVec, i ,j);
 					qMatrices.add(G);
@@ -38,7 +37,7 @@ public class QRDecompGivens extends QRDecomp{
 				}
 			}
 		}
-		this.Q = qMatrices.get(qMatrices.size() - 1);
+		this.Q = qMatrices.get(qMatrices.size() - 1).transpose();
 		for (int i = qMatrices.size() - 2; i >= 0; i--) {
 			Matrix G = qMatrices.get(i).transpose();
 			Q =  G.multiply(Q);
