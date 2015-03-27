@@ -764,6 +764,20 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 		this.n = X.n;
 		return this;
 	}
+	
+	/**
+	 * Multiply a matrix with a vector
+	 * @param b Vector to multiply with
+	 * @return Resultant vector
+	 */
+	public double[] multiplyVector(double[] b) {
+		checkMultiplyVectorDimensions(b);
+		double[] c = new double[b.length];
+		for (int i = 0; i < b.length; i++) {
+			c[i] = dotProduct(this.getRowVector(i), b);
+		}
+		return c;
+	}
 
 	/**
 	 * Gets determinant of matrix
@@ -848,6 +862,12 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 	private void checkMultiplyDimensions(Matrix B) {
 		if (this.n != B.m) {
 			throw new IllegalArgumentException("First matrix n must equal second matrix m.");
+		}
+	}
+	
+	protected void checkMultiplyVectorDimensions(double[] b) {
+		if (m != b.length) {
+			throw new IllegalArgumentException("Matrix and vector must be same length");
 		}
 	}
 
@@ -1004,6 +1024,21 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 			}
 		}
 		return X;
+	}
+	
+	/**
+	 * Returns the b for the hilbert matrix 
+	 * b = (0.1)^(n/3)* (1, 1,...,1)^t
+	 * @param n The length of the hilbert matrix n
+	 * @return b for the hilbert matrix
+	 */
+	public static double[] hilbertB(int n) {
+		double[] b = new double[n];
+		double x = Math.pow(0.1, n/3.);
+		for (int i = 0; i < b.length; i++) {
+			b[i] = x;
+		}
+		return b;
 	}
 
 	/* ------------------------
