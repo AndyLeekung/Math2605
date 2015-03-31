@@ -17,7 +17,7 @@ public class QRDecompHouseHolder extends QRDecomp{
 	 * @param A Matrix to decompose
 	 */
 	public QRDecompHouseHolder(Matrix A) {
-		//this.A = A;
+		this.A = A;
 		this.R = A;
 		//QR = A.getArrayCopy();
 		m = A.getRowDimension();

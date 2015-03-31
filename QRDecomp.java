@@ -3,6 +3,7 @@ import java.util.ArrayList;
 
 public abstract class QRDecomp {
 	
+	protected Matrix A;
 	protected Matrix Q;
 	protected Matrix R;
 	protected ArrayList<Matrix> qMatrices;
@@ -29,6 +30,10 @@ public abstract class QRDecomp {
 		return this.R;
 	}
 	
+	public Matrix getA() {
+		return this.A;
+	}
+	
 	/**
 	 * Solves the linear system given a vector b using QR
 	 * @param b The vector to solve with
@@ -51,6 +56,37 @@ public abstract class QRDecomp {
 			sol[i] = (y[i] - extSum) / row[0];
 		}
 		return sol;
+	}
+	
+	/**
+	 * Calculates the error ||QR - A||
+	 * @return The error 
+	 */
+	public double error() {
+		double error;
+		//QR
+		Matrix errorMatrix = Q.multiply(R);
+		//QR - A
+		errorMatrix.minusEquals(A);
+		error = errorMatrix.maxNorm();
+		return error;
+	}
+	
+	/**
+	 * Prints the solutions to the QR decomposition
+	 * @param w Column width.
+	 * @param d Number of digits after the decimal
+	 */
+	public void print(int w, int d) {
+		System.out.println("----------Original Matrix----------");
+		A.print(w, d);
+		System.out.println("----------       Q       ----------");
+		Q.print(w, d);
+		System.out.println("----------       R       ----------");
+		R.print(w, d);
+		System.out.println("----------     Error     ----------\n");
+		System.out.println("" + error());
+		
 	}
 	
 	/**

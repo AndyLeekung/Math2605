@@ -20,6 +20,7 @@ public class QRDecompGivens extends QRDecomp{
 	 * @param A Matrix to decompose
 	 */
 	public QRDecompGivens(Matrix A) {
+		this.A = A;
 		this.R = A;
 		double[][] rArr = R.getArray();
 		m = A.getRowDimension();

@@ -823,6 +823,21 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 	}
 	
 	/**
+	 * Calculates the max norm of a matrix
+	 * @return The greatest element in the matrix
+	 */
+	public double maxNorm() {
+		double norm = maxElement(this.getRowVector(0));
+		for (int i = 1; i < m; i++) {
+			double maxElem = maxElement(this.getRowVector(i));
+			norm = maxElem > norm ? maxElem : norm;
+		}
+		return norm;
+	}
+	
+	
+	
+	/**
 	 * Hilbert Matrix
 	 * @param n Dimension
 	 * @return a n x n Hilbert Matrix
@@ -1040,7 +1055,19 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 		}
 		return b;
 	}
-
+	
+	/**
+	 * Gets the max element in an array
+	 * @param arr Array to find
+	 * @return Max element
+	 */
+	public static double maxElement(double[] arr) {
+		double max = Math.abs(arr[0]);
+		for (int i = 1; i < arr.length; i++) {
+			max = Math.abs(arr[i]) > max ? arr[i] : max;
+		}
+		return max;
+	}
 	/* ------------------------
 	   End Vector Stuff
 	 * ------------------------ */
