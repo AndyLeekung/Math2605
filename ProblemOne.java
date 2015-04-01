@@ -21,7 +21,7 @@ public class ProblemOne {
 		while (choice != -1) {
 			System.out.println("1) Enter a matrix file ");
 			System.out.println("2) Use Hilbert Matrix of size n");
-			//System.out.println("3) Display info for Hilbert Matrices (n = 2,...,30) Part 1d");
+			System.out.println("3) Display info for Hilbert Matrices (n = 2,...,30) Part 1d");
 			System.out.println("-1) Exit");
 			System.out.print("Enter your choice: ");
 			choice = reader.nextInt();
@@ -33,8 +33,9 @@ public class ProblemOne {
 			case 2:
 				useHilbert();
 				break;
-//			case 3:
-//				break;
+			case 3:
+				hilbertMultiplePick();
+				break;
 			case -1:
 				//exit
 				break;
@@ -46,41 +47,97 @@ public class ProblemOne {
 
 	}
 	
-//	private static void hilbertMultiplePick() {
-//		Scanner r = new Scanner(System.in);
-//		System.out.println("1) LU Decomposition");
-//		System.out.println("2) QR with Householder");
-//		System.out.println("3) QR with Givens");
-//		System.out.print("Enter your choice: ");
-//		int c = r.nextInt();
-//		switch (c) {
-//		case 1: //LU
-//			hilbertMultipleLU();
-//			break;
-//		case 2: //householder
-//			break;
-//		case 3: //givens
-//			break;
-//		default:
-//			System.out.println("Please enter 1-3");
-//		}
-//	}
-//	
-//	private static void hilbertMultipleLU() {
-//		for (int i = 2; i <= 30; i++) {
-//			System.out.println("---------   N = " + i + "   ----------");
-//			Matrix hil = Matrix.hilbertMatrix(i);
-//			double[] b = Matrix.hilbertB(i);
-//			LuFact lu = new LuFact(hil);
-//			double[][] bArr = new double[b.length][1];
-//			for (int j = 0; j < b.length; j++) {
-//				bArr[j][0] = b[j];
-//			}
-//			Matrix bMat = new Matrix(bArr);
-//			SolveLuB luS = new SolveLuB(hil, bMat);
-//			
-//		}
-//	}
+	private static void hilbertMultiplePick() {
+		Scanner r = new Scanner(System.in);
+		System.out.println("1) LU Decomposition");
+		System.out.println("2) QR with Householder");
+		System.out.println("3) QR with Givens");
+		System.out.print("Enter your choice: ");
+		int c = r.nextInt();
+		switch (c) {
+		case 1: //LU
+			hilbertMultipleLU();
+			break;
+		case 2: //householder
+			hilbertMultipleHouse();
+			break;
+		case 3: //givens
+			hilbertMultipleGivens();
+			break;
+		default:
+			System.out.println("Please enter 1-3");
+		}
+	}
+	
+	private static void hilbertMultipleLU() {
+		for (int i = 2; i <= 20; i++) {
+			System.out.println("---------   N = " + i + "   ----------");
+			Matrix hil = Matrix.hilbertMatrix(i);
+			double[] b = Matrix.hilbertB(i);
+			LuFact lu = new LuFact(hil);
+			double[][] bArr = new double[b.length][1];
+			for (int j = 0; j < b.length; j++) {
+				bArr[j][0] = b[j];
+			}
+			Matrix bMat = new Matrix(bArr);
+			SolveLuB luS = new SolveLuB(hil, bMat);
+			System.out.println("----------    Error      ----------\n");
+			System.out.println(lu.error());
+			double[] x = luS.getSol();
+			System.out.println("----------      Xsol     ----------\n");
+			System.out.print("{");
+			for (int k = 0; k < x.length - 1; k++) {
+				System.out.print("" + x[k] + ", ");
+			}
+			System.out.print(x[x.length - 1] + "}\n");
+			double xErr = luS.solError(b);
+			System.out.println("----------  Xsol error   ----------\n");
+			System.out.println(xErr);
+			
+		}
+	}
+	
+	private static void hilbertMultipleHouse() {
+		for (int i = 2; i <= 20; i++) {
+			System.out.println("---------   N = " + i + "   ----------");
+			Matrix hil = Matrix.hilbertMatrix(i);
+			double[] b = Matrix.hilbertB(i);
+			QRDecomp qr = new QRDecompHouseHolder(hil);
+			System.out.println("----------    Error      ----------\n");
+			System.out.println(qr.error());
+			double[] x = qr.solve(b);
+			System.out.println("----------      Xsol     ----------\n");
+			System.out.print("{");
+			for (int k = 0; k < x.length - 1; k++) {
+				System.out.print("" + x[k] + ", ");
+			}
+			System.out.print(x[x.length - 1] + "}\n");
+			double xErr = qr.solError(b);
+			System.out.println("----------  Xsol error   ----------\n");
+			System.out.println(xErr);
+		}
+	}
+	
+	private static void hilbertMultipleGivens() {
+		for (int i = 2; i <= 20; i++) {
+			System.out.println("---------   N = " + i + "   ----------");
+			Matrix hil = Matrix.hilbertMatrix(i);
+			double[] b = Matrix.hilbertB(i);
+			QRDecomp qr = new QRDecompGivens(hil);
+			System.out.println("----------    Error      ----------\n");
+			System.out.println(qr.error());
+			double[] x = qr.solve(b);
+			System.out.println("----------      Xsol     ----------\n");
+			System.out.print("{");
+			for (int k = 0; k < x.length - 1; k++) {
+				System.out.print("" + x[k] + ", ");
+			}
+			System.out.print(x[x.length - 1] + "}\n");
+			double xErr = qr.solError(b);
+			System.out.println("----------  Xsol error   ----------\n");
+			System.out.println(xErr);
+		}
+	}
  	
 	private static void enterMatrixFile() throws IOException {
 		Scanner r = new Scanner(System.in);
