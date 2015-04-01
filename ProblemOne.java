@@ -21,6 +21,7 @@ public class ProblemOne {
 		while (choice != -1) {
 			System.out.println("1) Enter a matrix file ");
 			System.out.println("2) Use Hilbert Matrix of size n");
+			//System.out.println("3) Display info for Hilbert Matrices (n = 2,...,30) Part 1d");
 			System.out.println("-1) Exit");
 			System.out.print("Enter your choice: ");
 			choice = reader.nextInt();
@@ -32,6 +33,8 @@ public class ProblemOne {
 			case 2:
 				useHilbert();
 				break;
+//			case 3:
+//				break;
 			case -1:
 				//exit
 				break;
@@ -43,6 +46,42 @@ public class ProblemOne {
 
 	}
 	
+//	private static void hilbertMultiplePick() {
+//		Scanner r = new Scanner(System.in);
+//		System.out.println("1) LU Decomposition");
+//		System.out.println("2) QR with Householder");
+//		System.out.println("3) QR with Givens");
+//		System.out.print("Enter your choice: ");
+//		int c = r.nextInt();
+//		switch (c) {
+//		case 1: //LU
+//			hilbertMultipleLU();
+//			break;
+//		case 2: //householder
+//			break;
+//		case 3: //givens
+//			break;
+//		default:
+//			System.out.println("Please enter 1-3");
+//		}
+//	}
+//	
+//	private static void hilbertMultipleLU() {
+//		for (int i = 2; i <= 30; i++) {
+//			System.out.println("---------   N = " + i + "   ----------");
+//			Matrix hil = Matrix.hilbertMatrix(i);
+//			double[] b = Matrix.hilbertB(i);
+//			LuFact lu = new LuFact(hil);
+//			double[][] bArr = new double[b.length][1];
+//			for (int j = 0; j < b.length; j++) {
+//				bArr[j][0] = b[j];
+//			}
+//			Matrix bMat = new Matrix(bArr);
+//			SolveLuB luS = new SolveLuB(hil, bMat);
+//			
+//		}
+//	}
+ 	
 	private static void enterMatrixFile() throws IOException {
 		Scanner r = new Scanner(System.in);
 		System.out.print("Please enter the file name: ");
@@ -101,6 +140,7 @@ public class ProblemOne {
 			c = r.nextInt();
 			switch (c) {
 			case 1: //LU
+				luMenu(A, b);
 				break;
 			case 2: //QR Householder
 				QRHouse(A, b);
@@ -120,7 +160,26 @@ public class ProblemOne {
 	}
 	
 	private static void luMenu(Matrix A, double[] b) {
-		//TODO
+		LuFact lu = new LuFact(A);
+		lu.print(5, 6);
+		if (b != null) {
+			double[][] bArr = new double[b.length][1];
+			for (int i = 0; i < b.length; i++) {
+				bArr[i][0] = b[i];
+			}
+			Matrix bMat = new Matrix(bArr);
+			SolveLuB luSolve = new SolveLuB(A, bMat);
+			double[] x = luSolve.getSol();
+			System.out.println("----------      Xsol     ----------\n");
+			System.out.print("{");
+			for (int i = 0; i < x.length - 1; i++) {
+				System.out.print("" + x[i] + ", ");
+			}
+			System.out.print(x[x.length - 1] + "}\n");
+			double xErr = luSolve.solError(b);
+			System.out.println("----------  Xsol error   ----------\n");
+			System.out.println(xErr);
+		}
 	}
 	
 	private static void QRHouse(Matrix A, double[] b) {
@@ -129,11 +188,14 @@ public class ProblemOne {
 		if (b != null) {
 			double[] x = qr.solve(b);
 			System.out.println("----------      Xsol     ----------\n");
-			System.out.print("{ ");
+			System.out.print("{");
 			for (int i = 0; i < x.length - 1; i++) {
 				System.out.print("" + x[i] + ", ");
 			}
-			System.out.print(x[x.length - 1] + " }\n");
+			System.out.print(x[x.length - 1] + "}\n");
+			double xErr = qr.solError(b);
+			System.out.println("----------  Xsol error   ----------\n");
+			System.out.println(xErr);
 		}
 	
 	}
@@ -149,6 +211,9 @@ public class ProblemOne {
 				System.out.print("" + x[i] + ", ");
 			}
 			System.out.print(x[x.length - 1] + "}\n");
+			double xErr = qr.solError(b);
+			System.out.println("----------  Xsol error   ----------\n");
+			System.out.println(xErr);
 		}
 	}
 	 

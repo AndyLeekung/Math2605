@@ -830,7 +830,7 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 		double norm = maxElement(this.getRowVector(0));
 		for (int i = 1; i < m; i++) {
 			double maxElem = maxElement(this.getRowVector(i));
-			norm = maxElem > norm ? maxElem : norm;
+			norm = Math.max(Math.abs(norm), Math.abs(maxElem));
 		}
 		return norm;
 	}
@@ -1064,7 +1064,7 @@ public class Matrix implements Cloneable, java.io.Serializable  {
 	public static double maxElement(double[] arr) {
 		double max = Math.abs(arr[0]);
 		for (int i = 1; i < arr.length; i++) {
-			max = Math.abs(arr[i]) > max ? arr[i] : max;
+			max = Math.max(Math.abs(arr[i]), Math.abs(max));
 		}
 		return max;
 	}

@@ -1,8 +1,8 @@
 public class LuFact {
 
-    private double[][] L, U, lInverse, lStep, e;
+    private double[][] L, U, lStep, e;
 
-    private Matrix lMatrix, uMatrix, lInverseMatrix, lStepMatrix, eMatrix;
+    private Matrix lMatrix, uMatrix, lStepMatrix, eMatrix, A;
 
     private int m, n;
 
@@ -12,6 +12,7 @@ public class LuFact {
      * @param Matrix object A
      */
     public LuFact(Matrix A) {
+    	this.A = A;
         this.uMatrix = A;
         this.U = A.getArrayCopy();
         this.m = A.getRowDimension();
@@ -31,12 +32,10 @@ public class LuFact {
             }
         }
         this.eMatrix = new Matrix(this.e);
-        this.lInverseMatrix = new Matrix(this.e);
-        this.lInverse = eMatrix.getArrayCopy();
         this.L = eMatrix.getArrayCopy();
         luFactor();
-        lMatrix.print(5, 6);
-        uMatrix.print(5, 6);
+        //lMatrix.print(5, 6);
+        //uMatrix.print(5, 6);
     }
 
     /**
@@ -88,4 +87,35 @@ public class LuFact {
     public Matrix getU() {
         return uMatrix;
     }
+    
+	/**
+	 * Calculates the error ||LU - A||
+	 * @return The error 
+	 */
+	public double error() {
+		double error;
+		//LU
+		Matrix errorMatrix = lMatrix.multiply(uMatrix);
+		//LU - A
+		errorMatrix.minusEquals(A);
+		error = errorMatrix.maxNorm();
+		return Math.abs(error);
+	}
+    
+	/**
+	 * Prints the solutions to the QR decomposition
+	 * @param w Column width.
+	 * @param d Number of digits after the decimal
+	 */
+	public void print(int w, int d) {
+		System.out.println("----------Original Matrix----------");
+		A.print(w, d);
+		System.out.println("----------       L       ----------");
+		lMatrix.print(w, d);
+		System.out.println("----------       U       ----------");
+		uMatrix.print(w, d);
+		System.out.println("----------     Error     ----------\n");
+		System.out.println("" + error() + "\n");
+		
+	}
 }

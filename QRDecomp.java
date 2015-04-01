@@ -69,7 +69,19 @@ public abstract class QRDecomp {
 		//QR - A
 		errorMatrix.minusEquals(A);
 		error = errorMatrix.maxNorm();
-		return error;
+		return Math.abs(error);
+	}
+	
+	/**
+	 * Calculates the solution error ||Hxsol - b||
+	 * @return The error of the solution
+	 */
+	public double solError(double[] b) {
+		double error;
+		double[] errArray = this.A.multiplyVector(solve(b));
+		errArray = Matrix.minus(errArray, b);
+		error = Matrix.maxElement(errArray);
+		return Math.abs(error);
 	}
 	
 	/**
@@ -85,7 +97,7 @@ public abstract class QRDecomp {
 		System.out.println("----------       R       ----------");
 		R.print(w, d);
 		System.out.println("----------     Error     ----------\n");
-		System.out.println("" + error());
+		System.out.println("" + error() + "\n");
 		
 	}
 	
